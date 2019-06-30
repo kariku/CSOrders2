@@ -1,4 +1,4 @@
-package cs.orders;
+package cs.orders.model;
 
 import java.util.concurrent.atomic.AtomicLong;
 

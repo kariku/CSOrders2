@@ -1,4 +1,4 @@
-package cs.orders;
+package cs.orders.model;
 
 import java.util.Date;
 import java.util.Objects;
@@ -44,6 +44,10 @@ public class Order {
 
     public Type getType() {
         return type;
+    }
+
+    public boolean isLimitOrder() {
+        return type == Type.LIMIT;
     }
 
     public double getQuantity() {
