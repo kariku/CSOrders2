@@ -9,11 +9,30 @@ public class OrderManager {
 
 
     public OrderBook getOrderBook(String instrumentId) {
-        return orderBooksByInstrumentId.get(instrumentId);
+        OrderBook orderBook = orderBooksByInstrumentId.get(instrumentId);
+        if (orderBook == null) {
+            throwNotFound(instrumentId);
+        }
+        return orderBook;
     }
 
     public Order getOrder(String orderId) {
         return ordersById.get(orderId);
+    }
+
+    public OrderBook openOrderBook(String instrumentId) {
+        OrderBook orderBook = orderBooksByInstrumentId.merge(instrumentId, new OrderBook(instrumentId), (oldVal, newVal) -> newVal);
+        orderBook.open();
+        return orderBook;
+    }
+
+    public OrderBook closeOrderBook(String instrumentId) {
+        OrderBook orderBook = getOrderBook(instrumentId);
+        if (orderBook == null) {
+            throwNotFound(instrumentId);
+        }
+        orderBook.close();
+        return orderBook;
     }
 
     public boolean isOrderValid(String orderId) {
@@ -37,5 +56,9 @@ public class OrderManager {
     private OrderBook findOrderBook(Order order) {
         String instrumentId = order.getInstrumentId();
         return getOrderBook(instrumentId);
+    }
+
+    private static void throwNotFound(String instrumentId) {
+        throw new IllegalArgumentException(String.format("order book for instrument %s not found", instrumentId));
     }
 }

@@ -85,6 +85,18 @@ public class OrderBook {
         return smallestOrder;
     }
 
+    public Order getEarliestOrder() {
+        return earliestOrder;
+    }
+
+    public Order getLastOrder() {
+        return lastOrder;
+    }
+
+    public Map<Double, Double> getLimitBreakdown() {
+        return Collections.unmodifiableMap(limitBreakdown);
+    }
+
     public boolean isOrderValid(Order order) {
         if (executions.isEmpty()) {
             return true;
